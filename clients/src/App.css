@@ -1,0 +1,11 @@
+.app {
+    text-align: center;
+    margin: 2rem auto;
+}
+
+.list-job {
+    padding: 3rem;
+    box-shadow: 0 5px 16px rgba(0,0,0,0.26);
+    width: 500px;
+    margin: 0 auto;
+}
