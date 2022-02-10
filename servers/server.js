@@ -40,7 +40,7 @@ app.delete('/:id', async (req, res) => {
     }
 })
 
-mongoose.connect('mongodb://hyacinth:htnicayh@mongoose:27017/docker?authSource=admin', {
+mongoose.connect(`mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@mongoose:27017/docker?authSource=admin`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }, (error) => {

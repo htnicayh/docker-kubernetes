@@ -10,4 +10,7 @@ COPY . .
 
 EXPOSE 5000
 
+ENV MONGO_USERNAME=hyacinth
+ENV MONGO_PASSWORD=htnicayh
+
 CMD ["npm", "start"]
