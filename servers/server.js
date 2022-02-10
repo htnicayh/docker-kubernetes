@@ -24,7 +24,6 @@ app.get('/', async (req, res) => {
 })
 
 app.post('/', async (req, res) => {
-    console.log(req.body)
     const data = req.body
     const newJobs = await jobSchema.create({ description: data.description })
     await newJobs.save()
@@ -41,14 +40,14 @@ app.delete('/:id', async (req, res) => {
     }
 })
 
-mongoose.connect('mongodb://localhost:27017/docker', {
+mongoose.connect('mongodb://hyacinth:htnicayh@mongoose:27017/docker?authSource=admin', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }, (error) => {
     if (error) {
-        console.log('FAILURE TO CONNECT MONGODB ', error)
+        console.log('FAILURE TO CONNECT MONGODB - ', error)
     } else {
-        console.log('CONNECT SUCCESS')
+        console.log('CONNECT SUCCESS !!!')
         app.listen(PORT, () => {
             console.log(`App listening at PORT ${PORT}`)
         })

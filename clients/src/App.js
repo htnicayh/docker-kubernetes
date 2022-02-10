@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 const App = () => {
   const [jobs, setJobs] = useState([])
   const [input, setInput] = useState('')
+  const inputRef = useRef(null)
 
   useEffect(() => {
     async function getJobs() {
@@ -20,49 +21,64 @@ const App = () => {
     }
 
     getJobs()
-  }, [jobs.length])
+    inputRef.current.focus()
+  }, [])
 
-  const handleCreate = async () => {
+  const handleDelete = async (id) => {
+    await fetch(`http://localhost:5000/${id}`, {
+      method: 'DELETE'
+    })
     await fetch('http://localhost:5000', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ description: input })
+      method: 'GET'
     })
+    .then((response) => response.json())
     .then((response) => {
-      return response.json()
+      setJobs(response)
     })
-    .then((res) => {
-      setJobs((prev) => {
-        return [
-          res,
-          ...prev
-        ]
+  }
+
+  const handleCreate = async (e) => {
+    if (e.keyCode === 13) {
+        await fetch('http://localhost:5000', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ description: input })
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        setJobs((prev) => {
+          return [
+            ...prev,
+            response
+          ]
+        })
       })
       setInput('')
-    })
-    .catch((e) => {
-      console.log(e)
-    })
+    }
   }
 
   return (
     <div className='app'>
-      <div>
+      <form onKeyDown={(e) => {
+          handleCreate(e)
+        }}>
         <label>Jobs: </label> <br />
-        <input placeholder='Enter Jobs' value={input} onChange={(e) => {
+        <input ref={inputRef} placeholder='Enter Jobs' value={input} onChange={(e) => {
           setInput(e.target.value)
         }} />
-        <button onClick={handleCreate}>Add</button>
-      </div>
+        <button>Add</button>
+      </form>
       <br />
       <div className='list-job'>
         <h2>List Jobs:</h2>
         <ul>
           {jobs ? jobs.map((job, index) => {
             return (
-              <li key={index}>
+              <li key={index} onClick={() => {
+                handleDelete(job._id)
+              }}>
                 {job.description}
               </li>
             )
