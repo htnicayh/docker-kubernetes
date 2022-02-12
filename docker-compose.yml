@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mongoose:
+    image: 'mongo'
+    container_name: mongoose
+    volumes:
+      - persist:/data/db
+    env_file:
+      - ./.env
+    ports:
+      - '27017:27017'
+
+  servers:
+    build: ./servers
+    # build:
+        # context: ./servers
+        # dockerfile: Dockerfile
+    container_name: servers
+    ports:
+      - '5000:5000'
+    volumes:
+      - ./servers:/app
+      - /app/node_modules
+    env_file:
+      - ./servers/.env
+    depends_on:
+      - mongoose
+
+  clients:
+    build: ./clients
+    container_name: clients
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./clients/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - servers
+
+volumes:
+  persist:

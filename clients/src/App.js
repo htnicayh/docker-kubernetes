@@ -64,7 +64,7 @@ const App = () => {
       <form onKeyDown={(e) => {
           handleCreate(e)
         }}>
-        <label>Jobs: </label> <br />
+        <label>Jobs:</label> <br />
         <input ref={inputRef} placeholder='Enter Jobs' value={input} onChange={(e) => {
           setInput(e.target.value)
         }} />
