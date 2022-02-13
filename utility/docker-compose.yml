@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  utility:
+    build: ./
+    container_name: utility
+    volumes:
+      - ./:/app
+    stdin_open: true
+    tty: true
