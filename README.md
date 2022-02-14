@@ -7,3 +7,13 @@ Run in this directory (In detach mode):
 docker-compose up -d
 ```
 The app will be running at [http://localhost:3000](http://localhost:3000)
+
+### With Utility Container
+To Create Project:
+```
+docker-conpose run [image_name] init
+```
+To install dependencies:
+```
+docker-compose run [image_name] install
+```
