@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   utility:
-    build: ./
+    build:
+      context: ./
+      dockerfile: Dockerfile
     container_name: utility
     volumes:
       - ./:/app
